@@ -1,0 +1,48 @@
+extends layout
+
+block content
+ #banner.page-header
+  .row
+   .col-lg-6
+    h2 BasementDB
+      small Catalog your collection here!
+ .row
+    .col-xs-12.col-sm-8
+      .row.list-group
+       .col-xs-12.list-group-item
+        h4
+         a(href="/media") Click here for a list of Media Collections
+          small &nbsp;
+           span.badge.pull-right.badge-default View Collections!
+          p.media View all media by type. 
+          p
+           span.label.label-warning Music (CD/DVD/Vinyl)
+           span.label.label-warning Comics
+           span.label.label-warning Books
+       .col-xs-12.list-group-item
+        h4
+         a(href="/media/show") Click here to display all items:
+          small &nbsp;
+           span.badge.pull-right.badge-default View All!
+          p.media View a list of all items 
+          p
+       .col-xs-12.list-group-item
+        h4
+         a(href="/media/add") Add to the database
+          small &nbsp;
+           span.badge.pull-right.badge-default Add items!
+          p.media Click to add media 
+          p
+           span.label.label-warning +
+       .col-xs-12.list-group-item
+        h4
+         a(href="/media/search") Search the database!
+          small &nbsp;
+           span.badge.pull-right.badge-default Critera based search
+          p.media View all media by type. 
+          p
+           span.label.label-warning Search By: 
+           span.label.label-warning Type
+           span.label.label-warning Year 
+    .col-xs-12.col-sm-4
+     p.lead Are you tired of forgetting what you have in your collection?  Would you like a reliable & easy to use web-app to keep track of all the items in your collection?  Look no further, basementDB is the solution to your needs.  Track your whole collection & easily view it here!

@@ -1,0 +1,58 @@
+extends layout
+
+block content
+  .row.page-header
+    .col-lg-12
+      h1 Starcups
+  .row
+    .col-xs-12.col-md-9
+      .row
+        .col-xs-12.col-sm-6
+          p Various Media types listed below
+          .panel.panel-primary
+            .panel-heading
+              h2.panel-title Media Types
+            .panel-body
+              p Publications (Books/Comics)
+              p Music (CD/Vinyl)
+              p Interactive media (Video Games/Interactive movies)
+          .panel.panel-primary
+            .panel-heading
+              h2.panel-title Popular items
+            .panel-body
+              span.label.label-warning
+                | &nbsp; Marvel comics
+              | &nbsp;
+              span.label.label-warning
+                | &nbsp; Jazz Music
+              | &nbsp;
+              span.label.label-warning
+                | &nbsp;Superman
+              | &nbsp;
+          
+        .col-xs-12.col-sm-6.last-added
+          .panel.panel-primary
+            .panel-heading
+              h2.panel-title Last added
+            .panel-body
+              img.img-responsive.img-rounded(src='https://assets.materialup.com/uploads/6c76e13b-48ed-4296-b458-e47c5f40760f/preview')
+      .row
+        .col-xs-12
+          .panel.panel-primary.recentAdd-panel
+            .panel-heading
+              a.btn.btn-default.pull-right(href='/media/add') Add media
+              h2.panel-title Most Recently Added
+            .panel-body.recentAdd-container
+              .row
+                .output
+                  .well.well-sm.output-header
+                    span.rating
+                    span.recentAddAuthor Stan Lee - Avengers 1
+                    small.recentAddTimestamp -added 12/2/2017
+                  .col-xs-12
+                    p First appearance of black widow
+    .col-xs-12.col-md-3
+      p.lead
+        | Select collection to the left and view output below
+      p
+        |Displays information on the types of media stored - Access 
