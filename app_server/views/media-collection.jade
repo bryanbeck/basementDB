@@ -15,35 +15,7 @@ block content
             .panel-body
                 each mediaType in collections.mediaTypes
                  p= mediaType
-            .panel-heading
-              h2.panel-title= collections.item
-            .panel-body
-                each popularItem in collections.popularItems
-                 span.label.label-warning
-                 | &nbsp; #{popularItem}
-                 | &nbsp;
-        .col-xs-12.col-sm-6.last-added
-          .panel.panel-primary
-            .panel-heading
-              h2.panel-title= collections.add
-            .panel-body
-              img.img-responsive.img-rounded(src=collections.lastAdded)
-      .row
-        .col-xs-12
-          .panel.panel-primary.recentAdd-panel
-            .panel-heading
-              a.btn.btn-default.pull-right(href='/media/add')= collections.newAdd
-              h2.panel-title  #{collections.recent}
-            .panel-body.recentAdd-container
-             each mostRecent in collections.mostRecents
-              .row
-                .output
-                  .well.well-sm.output-header
-                    span.recentAddAuthor #{mostRecent.author}
-                    span.outputIssue #{mostRecent.issue}
-                    small.recentAddTimestamp #{mostRecent.added}
-                  .col-xs-12
-                    p #{mostRecent.notes}
+            
     .col-xs-12.col-md-3
       p.lead #{collections.title} #{sidebar.context}
       p #{sidebar.callToAction}

@@ -8,17 +8,24 @@ block content
          small &nbsp;#{pageHeader.strapline}
 
     .col-xs-12.col-sm-8
+      .error= message
       .row.list-group
-       each item in items
+      each media in medias
         .col-xs-12.list-group-item
          h4
-          a(href='/media/') #{item.title}
-          small &nbsp;
-           span.badge.pull-right.badge-default 1
-          p.address= item.artist
+           a(href="/media/one/#{media._id}")= media.title
+            span.badge.pull-right.badge-default= media.mediaType
+          p.artist= media.artist
           p
-           each dataBlurb in item.dataBlurbs
-            span.label.label-warning= dataBlurb
+          p.publisher= media.publisher
+          p
+          p.year= media.year
+          p
+          p.dateAdded= media.dateAdded
+          p
+          p.notes= media.notes
+          p
+            span.label.label-warning= media.genre
             &nbsp;
         .col-xs-12.list-group-item   
     .col-xs-12.col-sm-4

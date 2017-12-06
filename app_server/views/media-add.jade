@@ -3,46 +3,37 @@ extends layout
 block content
   .row.page-header
     .col-lg-12
-      h1 = pageHeader.title 
+      h1= pageHeader.title 
   .row
     .col-xs-12.col-md-6
-      form.form-horizontal(action="/location", method="get", role="form")
+      form.form-horizontal(action="", method="post", role="form")
         .form-group
           label.col-xs-10.col-sm-2.control-label(for="mediaType") Media Type
           .col-xs-12.col-sm-10
-            input#mediaType.form-control(mediaType="mediaType")
+            input#mediaType.form-control(name="mediaType")
         .form-group
           label.col-xs-10.col-sm-2.control-label(for="title") Title
           .col-xs-12.col-sm-10
-            input#title.form-control(title="title")
+            input#title.form-control(name="title")
         .form-group
           label.col-xs-10.col-sm-2.control-label(for="artist") Author/Artist
           .col-xs-12.col-sm-10
-            input#artist.form-control(artist="artist")
+            input#artist.form-control(name="artist")
         .form-group
           label.col-xs-10.col-sm-2.control-label(for="year") Publication Year
           .col-xs-12.col-sm-10
-            input#year.form-control(year="year")
+            input#year.form-control(name="year")
         .form-group
           label.col-xs-10.col-sm-2.control-label(for="publisher") Publisher
           .col-xs-12.col-sm-10
-            input#publisher.form-control(publsiher="publisher")
+            input#publisher.form-control(name="publisher")
+        .form-group
+          label.col-sm-2.control-label(for="notes") Notes
+          .col-sm-10
+            input#notes.form-control(name="notes")
         .form-group
           label.col-xs-10.col-sm-2.control-label(for="name") Date added
           .col-xs-12.col-sm-10
             input#date.form-control(date="date")
-        .form-group
-          label.col-xs-10.col-sm-2.control-label(for="rating") Rating
-          .col-xs-12.col-sm-2
-            select#rating.form-control.input-sm(name="rating")
-              option 5
-              option 4
-              option 3
-              option 2
-              option 1
-        .form-group
-          label.col-sm-2.control-label(for="review") Notes
-          .col-sm-10
-            textarea#notes.form-control(name="notes", rows="5")
-        button.btn.btn-default.pull-right Add Media to Database
-.col-xs-12.col-md-4
+        button.btn.btn-default.pull-right Add to database
+    .col-xs-12.col-md-4
