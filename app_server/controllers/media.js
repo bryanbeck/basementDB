@@ -9,12 +9,11 @@ var apiOptions = {
 /*GET 'Home' page*/
 module.exports.home = function(req,res){
 	res.render('media-home', {
-		title: 'BasementDB - Store & Catalog your collection',
+		title: 'MongoDB',
 		pageHeader: {
-			title: 'BasementDB',
-			strapline: 'Store & catalog your collection. View it easily with online access!'
+			title: 'A database using noSQL with monogoDB',
 		},
-		sidebar:"Are you tired of forgetting what you have in your collection?  Would you like a reliable & easy to use web-app to keep track of all the items in your collection?  Look no further, basementDB is the solution to your needs.  Track your whole collection & easily view it here!",
+		sidebar:"This database has been created to store books from my library, the goal is to store all books in the library without having to enter in any information besides ISBN.",
 		navigations: [{
 			hyperlink: '/media/show',
 			title: 'Click to display all items in collection',
@@ -27,13 +26,13 @@ module.exports.home = function(req,res){
 			title: 'Click to add new media',
 			description:'Add new media to the collection',
 			types:'+',
-			subheading: 'Add new!'
+			subheading: 'Add new books by ISBN number'
 		},
 		{
 			hyperlink: '/media/search',
-			title: 'Search the database',
+			title: 'Search the database by ISBN',
 			description:'Search for media within collection',
-			types:['Seach By:','Type','Year'],
+			types:['Search By:','ISBN'],
 			subheading: 'Criteria Based Search'
 		}]
 	});
@@ -87,34 +86,28 @@ module.exports.collections = function(req,res){
 var renderAddMedia = function(req, res) {
 		res.render('media-add',{
 		title: 'Add Media',
-		pageHeader: {title: 'Add new Media'}
+		pageHeader: {title: 'Add new books via ISBN'}
 	});
 }
 
 module.exports.addMedia = function(req,res){
 	renderAddMedia(req, res);
 };
+
 //POST add review page
 module.exports.doAddMedia = function(req, res){
 	var requestOptions, path,mediaid, postdata;
 	mediaid = req.params.mediaid;
 	path = "/api/media/add";
 		postdata = {
-		    mediaType: req.body.mediaType,
-		    artist: req.body.artist,
-		    title: req.body.title,
-		    publisher: req.body.publisher,
-		    genre: req.body.genre,
-		    notes: req.body.notes,
-		    year: req.body.year,
-		    dateAdded: req.body.dateAdded
+			ISBN: req.body.ISBN
 		  };
   requestOptions = {
     url : apiOptions.server + path,
     method : "POST",
     json : postdata
   };
-  if (!postdata.artist || !postdata.title || !postdata.mediaType) {
+  if (!postdata) {
     res.redirect('/media/add');
   } else {
     request(
@@ -127,7 +120,7 @@ module.exports.doAddMedia = function(req, res){
           _showError(req, res, response.statusCode);
         }
       }
-    );
+     );
 }
 };
 
@@ -165,18 +158,12 @@ module.exports.showMedia = function(req,res){
 /*GET 'searchMedia' page*/
 var renderMediaSearch = function (req, res, mediaD) {
 	res.render('media-search',{
-		title: 'Search Media',
-		pageHeader: {title: 'Search by ID'},
+		title: 'Search Books by ISBN',
+		pageHeader: {title: 'Show description by ISBN'},
 		collections: {
-			type: mediaD.title,
+			type: mediaD.ISBN,
 			mediaTypes: {
-				mediaPublisher: mediaD.publisher,
-				mediaArtist: mediaD.artist,
-				mediaType: mediaD.mediaType,
-				mediaDateAdded: mediaD.dateAdded,
-				mediaGenre: mediaD.genre,
-				mediaYear: mediaD.year,
-				mediaNotes: mediaD.notes
+				mediaISBN: mediaD.ISBN
 			}
 		},
 		medias: mediaD
