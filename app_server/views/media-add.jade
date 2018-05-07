@@ -21,16 +21,22 @@ block content
                  });
                   htmlString += '<p class="small">' + item.volumeInfo.description + '</p>';
                   htmlString += '</div>';
+                  return data.items;
                  });   
                   $('#book').html(htmlString + "/div>");
             }
         }
   .row.page-body
     .col-xs-12.col-md-6
-        label.col-xs-10.col-sm-2.control-label(for="ISBN") ISBN
-        .col-xs-12.col-sm-10
+      form.form-horizontal(action="", method="POST", role="form")
+        .form-group
+          label.col-xs-10.col-sm-2.control-label(for="ISBN") ISBN
           input#ISBN.form-control(type="text", name="ISBN")
-      button(onclick="getBookDetails('ISBN')") Add to Database
+        .form-group
+          button.btn.btn-default.pull-right ADD TO DB
+        .form-group
+          .col-xs-12.col-sm-10
+      button(onclick="getBookDetails('ISBN')") Search database for media
     .col-xs-12.col-md-4
-    <div id="book"></div>
+    <div id="book"
 

@@ -45,20 +45,18 @@ module.exports.mediaShowAll = function (req, res) {
 
 
 module.exports.mediaAdd = function() {
-
-	console.log(req.body);
-	Med.create({
-		ISBN: req.body.ISBN
-	}, function(err, medias) {
-
-			if (err) {
-				console.log(err);
-				sendJsonResponse(res, 400, err);
-			} else {
-				console.log(medias);
-				sendJsonResponse(res, 201, medias);
-			}
-		});
+		console.log(req.body);
+		url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + req.params.mediaid;
+		Med.insertOne(mediaisbn.items)
+		,(function (err, medias) {
+				if (err) {
+					console.log(err);
+					sendJsonResponse(res, 400, err);
+				} else {
+					console.log(medias);
+					sendJsonResponse(res, 201, medias);
+				}
+			});
 };
 
 module.exports.mediaSearch = function (req, res) {
