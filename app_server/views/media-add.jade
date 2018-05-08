@@ -4,28 +4,8 @@ block content
   .row.page-header
     .col-lg-12
       h1= pageHeader.title
-      script.
-        function getBookDetails(isbninput) {
-            var isbn = document.getElementById(isbninput).value; 
-            var url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + isbn;
-            $.getJSON(url, displayBooks);
-            function displayBooks(data) {
-              var htmlString = "<div>";
-              $.each(data.items, function (i, item) {
-                htmlString += '<div class="col-xs-3">';
-                htmlString += '<img src="' + item.volumeInfo.imageLinks.thumbnail + '" alt="' + item.id + '" title="' + item.id + '", class ="img-thumbnail img-responsive"/><br/>';
-                htmlString += '<strong class="small">Pub: ' + item.volumeInfo.publishedDate + '</strong></div>';
-                htmlString += '<div class="col-xs-9"><h1>' + item.volumeInfo.title + '</h1>';
-                $.each(item.volumeInfo.authors, function (i, author) {
-                  htmlString += '<p class="bg-info"><i>' + author + '</i></p>';
-                 });
-                  htmlString += '<p class="small">' + item.volumeInfo.description + '</p>';
-                  htmlString += '</div>';
-                  return data.items;
-                 });   
-                  $('#book').html(htmlString + "/div>");
-            }
-        }
+      script(src='/javascripts/jquery331min.js')
+      script(src ='/javascripts/scripts.js')
   .row.page-body
     .col-xs-12.col-md-6
       form.form-horizontal(action="", method="POST", role="form")
@@ -33,9 +13,9 @@ block content
           label.col-xs-10.col-sm-2.control-label(for="ISBN") ISBN
           input#ISBN.form-control(type="text", name="ISBN")
         .form-group
-          button.btn.btn-default.pull-right ADD TO DB
+          button.btn.btn-default.pull-right(onclick="storeJSON('ISBN')", method="POST") ADD TO DB
         .form-group
-          .col-xs-12.col-sm-10
+          .col-xs-12.col-sm-1
       button(onclick="getBookDetails('ISBN')") Search database for media
     .col-xs-12.col-md-4
     <div id="book"

@@ -1,8 +1,8 @@
 var express = require('express');
 var router = express.Router();
 // var ctrlMain = require('../controllers/main');
-var ctrlMedia = require('../controllers/media');
-var ctrlOthers = require('../controllers/others');
+var ctrlMedia = require('../controllers/media.js');
+var ctrlOthers = require('../controllers/others.js');
 
 // /* GET home page. */
 // router.get('/', ctrlMain.index);

@@ -6,11 +6,6 @@ var sendJsonResponse = function(res,status, content) {
 	res.json(content);
 };
 
-module.exports.google = function (req, res) {
-	console.log(req.body);
-	ISBN: req.body.ISBN
-}
-
 module.exports.mediaByType = function (req, res) {
 	if(req.params && req.params.mediaid) {
 		Med
@@ -44,19 +39,42 @@ module.exports.mediaShowAll = function (req, res) {
 };
 
 
-module.exports.mediaAdd = function() {
-		console.log(req.body);
-		url = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + req.params.mediaid;
-		Med.insertOne(mediaisbn.items)
-		,(function (err, medias) {
-				if (err) {
-					console.log(err);
-					sendJsonResponse(res, 400, err);
-				} else {
-					console.log(medias);
-					sendJsonResponse(res, 201, medias);
-				}
-			});
+module.exports.mediaAdd = function(req, res) {
+	console.log(req.body);
+	var request = require("request");
+	var url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:';
+	var ISBN = req.params.ISBN;
+	var reqURL = url+ISBN;
+	var bookData = new Med;
+
+		request({
+		    url: reqURL,
+		    json: true
+		}, function (error, response, body) {
+
+		    if (!error && response.statusCode === 200) {
+		        bookData = JSON.stringify(body);
+		        	Med.create({
+						image: body.image,
+						author: body.author,
+						publishdate: body.publishdate,
+						title: req.body.title,
+						description: body.description,
+						textSnippet: body.textSnippet,
+						accessInfo: body.accessInfo
+					}, function(err, medias) {
+							if (err) {
+								console.log(err);
+								sendJsonResponse(res, 400, err);
+							} else {
+								console.log(medias);
+								sendJsonResponse(res, 201, medias);
+							}
+						});
+						    }
+						}); 
+
+
 };
 
 module.exports.mediaSearch = function (req, res) {

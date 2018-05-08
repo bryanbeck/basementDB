@@ -66,7 +66,7 @@ var renderMediaCollection = function (req, res, mediaD) {
 };
 //add media via isbn 
 module.exports.collections = function(req,res){
-	var requestOptions, path;
+	var requestOptions, path,jsonFile, isbn, url;
 	path = req.params.mediaid;
 	requestOptions = {
 		url : apiOptions.google + path,
@@ -95,20 +95,22 @@ var renderAddMedia = function(req, res) {
 
 module.exports.addMedia = function(req,res){
 			renderAddMedia(req, res);
-		};
+
+}
+
+
 
 //POST add review page
 module.exports.doAddMedia = function(req, res){
-	var requestOptions, path,mediaisbn, ISBN;
-	mediaisbn = apiOptions.google + req.params.ISBN;
+	var requestOptions, path, ISBN, mediaid, jsonFile;
+	ISBN = req.params.ISBN;
 	path = "/api/media/add";
-	
-	  requestOptions = {
-	    url : mediaisbn,
-	    json : mediaisbn.items,
-	    method : "GET"
+	requestOptions = {
+	    url : apiOptions.server + path,
+	    json : jsonFile,
+	    method : "POST"
 	  };
-	  if (!mediaisbn) {
+	  if (!jsonFile) {
 	    res.redirect('/media/add');
 	  } else {
 	    request(
@@ -175,10 +177,10 @@ var renderMediaSearch = function (req, res, mediaD) {
 module.exports.searchMedia = function(req,res){
 	var requestOptions, path, entry;
 	entry = req.body.title;
-	path = "/api/media/search/" + req.params.mediaid;
+	path = "/api/media/search/" + req.params.ISBN;
 	requestOptions = {
-		url : apiOptions.google + entry,
-		method : "POST",
+		url : path + entry,
+		method : "GET",
 		json : {},
 		qs : {}
 	};
