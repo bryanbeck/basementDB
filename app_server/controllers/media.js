@@ -39,93 +39,88 @@ module.exports.home = function(req,res){
 	});
 };
 
-/*GET 'Collections' page*/
-var renderMediaCollection = function (req, res, mediaD) {
-	res.render('media-collection', {
-		title: 'view item',
-		pageHeader: {title: 'Media Item'},
-		sidebar: {
-			context: 'Output from search function displays here',
-			callToAction: 'Detailed view'
-		},
-		textadd: "View Specific items from the collection",
-		collections: {
-			type: mediaD.title,
-			mediaTypes: {
-				mediaPublisher: mediaD.publisher,
-				mediaArtist: mediaD.artist,
-				mediaType: mediaD.mediaType,
-				mediaDateAdded: mediaD.dateAdded,
-				mediaGenre: mediaD.genre,
-				mediaYear: mediaD.year,
-				mediaNotes: mediaD.notes
-			}
-		},
-		medias: mediaD
-		});
-};
-//add media via isbn 
-module.exports.collections = function(req,res){
-	var requestOptions, path,jsonFile, isbn, url;
-	path = req.params.mediaid;
-	requestOptions = {
-		url : apiOptions.google + path,
+var renderPopulateMedia = function(req,res, responseBody){
+	res.render('media-populate',{
+		title: 'Populate Media data',
+		pageHeader: {title: 'Populate Media data to be passed to MongoDB'}
+
+	});
+}
+
+module.exports.loadPopulate = function(req, res){
+	var requestOptions, path;
+	path ='/media/add/' + req.params.ISBN+'/populate';
+	requestOptions ={
+		url : apiOptions.server + path,
 		method : "GET",
-		json : {},
-		qs : {}
+		json : true,
+		qs : {},
 	};
 	request(
 		requestOptions,
 		function(err, response, body) {
-			renderMediaCollection(req, res, body);
-			}
-		);
-	
+			renderPopulateMedia(req, res, body);
+		}
+	);
 };
 
+module.exports.populateMedia = function(req, res){
+	res.redirect('https://www.googleapis.com/books/v1/volumes?q=isbn:'+ req.params.ISBN);
+
+}
 
 /*GET 'addMedia' page*/
 var renderAddMedia = function(req, res) {
 		res.render('media-add',{
-		title: 'Add Media',
-		pageHeader: {title: 'Add new books via ISBN'}
+			title: 'Add Media',
+			pageHeader: {title: 'Add new books via ISBN'}
 	});
 }
 
 
-module.exports.addMedia = function(req,res){
-			renderAddMedia(req, res);
 
+module.exports.addMedia = function(req,res){
+
+	renderAddMedia(req, res);
 }
 
 
+	
 
-//POST add review page
+//POST book to database
 module.exports.doAddMedia = function(req, res){
-	var requestOptions, path, ISBN, mediaid, jsonFile;
-	ISBN = req.params.ISBN;
-	path = "/api/media/add";
-	requestOptions = {
-	    url : apiOptions.server + path,
-	    json : jsonFile,
-	    method : "POST"
-	  };
-	  if (!jsonFile) {
-	    res.redirect('/media/add');
-	  } else {
-	    request(
-	      requestOptions,
-	      function(err, response, body) {
-	        if (response.statusCode === 201) {
-	         res.redirect('/media/show');
-	        } else {
-	          console.log(body);
-	          // _showError(req, res, response.statusCode);
-	        }
-	      }
-	     );
-	}
-	};
+	var requestOptions, path, entry, postdata;
+	path = "/api/media/add/";
+	entry = req.body.ISBN+'/populate';
+		postdata = {
+			isbn: req.body.ISBN,
+			image: req.body.img,
+			author: req.body.author,
+			description: req.body.desc,
+			publishdate: req.body.pubDate,
+			title: req.body.bookname
+		 };
+  requestOptions = {
+    url : apiOptions.server + path,
+    method : "POST",
+    json : postdata
+  };
+  if (!postdata) {
+    res.redirect('/media/add');
+  } else {
+    request(
+      requestOptions,
+      function(err, response, body) {
+        if (response.statusCode === 201) {
+         res.redirect('/media/show');
+        } else {
+          console.log(body);
+          //_showError(req, res, response.statusCode);
+        }
+      }
+    );
+}
+};
 
 
 /*GET 'showMedia' page*/
@@ -141,7 +136,8 @@ var renderShowMedia = function (req, res, responseBody) {
 		medias: responseBody
 	});
 };
-//post
+
+
 module.exports.showMedia = function(req,res){
 	var requestOptions, path;
 	path ='/api/media/show';
@@ -161,6 +157,8 @@ module.exports.showMedia = function(req,res){
 
 /*GET 'searchMedia' page*/
 var renderMediaSearch = function (req, res, mediaD) {
+	// res.redirect('https://www.googleapis.com/books/v1/volumes?q=isbn:'+ req.params.ISBN);
+
 	res.render('media-search',{
 		title: 'Search Books by ISBN',
 		pageHeader: {title: 'Show description by ISBN'},
@@ -175,19 +173,27 @@ var renderMediaSearch = function (req, res, mediaD) {
 
 
 module.exports.searchMedia = function(req,res){
-	var requestOptions, path, entry;
+	var requestOptions, path, entry, url;
+
 	entry = req.body.title;
+	url = apiOptions.google + '9781617292033';
+
+
+	
 	path = "/api/media/search/" + req.params.ISBN;
 	requestOptions = {
-		url : path + entry,
+		url : url,
 		method : "GET",
-		json : {},
-		qs : {}
+		json : true
 	};
 	request(
 		requestOptions,
 		function(err, response, body) {
+			if (response.statusCode === 200){
+				res.send(body)
+			}
 			renderMediaSearch(req, res, body);
 			}
 		);
 };
+

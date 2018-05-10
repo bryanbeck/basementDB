@@ -1,22 +1,14 @@
 extends layout
-
 block content
   .row.page-header
     .col-lg-12
       h1= pageHeader.title
-      script(src='/javascripts/jquery331min.js')
-      script(src ='/javascripts/scripts.js')
   .row.page-body
     .col-xs-12.col-md-6
-      form.form-horizontal(action="", method="POST", role="form")
+      form.form-horizontal(action="", method="get", role="form")
         .form-group
           label.col-xs-10.col-sm-2.control-label(for="ISBN") ISBN
-          input#ISBN.form-control(type="text", name="ISBN")
-        .form-group
-          button.btn.btn-default.pull-right(onclick="storeJSON('ISBN')", method="POST") ADD TO DB
-        .form-group
-          .col-xs-12.col-sm-1
-      button(onclick="getBookDetails('ISBN')") Search database for media
+            .col-xs-12.col-sm-10
+              input#ISBN.form-control(type="text", name="ISBN")
+        button.btn.btn-submit.pull-right Add to database
     .col-xs-12.col-md-4
-    <div id="book"
-

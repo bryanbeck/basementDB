@@ -1,34 +1,12 @@
 var mongoose = require('mongoose');
 var Med = mongoose.model('Media');
+var request = require("request");
 
 var sendJsonResponse = function(res,status, content) {
 	res.status(status);
 	res.json(content);
 };
 
-module.exports.mediaByType = function (req, res) {
-	if(req.params && req.params.mediaid) {
-		Med
-		 .findById(req.params.mediaid)
-		 .exec(function(err, medias){
-			if (!medias){
-				sendJsonResponse(res, 404, {
-					"message": "mediaid not found"
-				});
-				return;
-			} else if (err) {
-				sendJsonResponse(res, 404, err);
-				return;
-			}
-			sendJsonResponse(res, 200, medias);
-		});	
-	} else {
-		sendJsonResponse(res, 404, {
-			"message": "No mediaid in request"
-		});
-	}
-	
-};
 
 module.exports.mediaShowAll = function (req, res) {
 	Med
@@ -41,46 +19,31 @@ module.exports.mediaShowAll = function (req, res) {
 
 module.exports.mediaAdd = function(req, res) {
 	console.log(req.body);
-	var request = require("request");
-	var url = 'https://www.googleapis.com/books/v1/volumes?q=isbn:';
-	var ISBN = req.params.ISBN;
-	var reqURL = url+ISBN;
-	var bookData = new Med;
-
-		request({
-		    url: reqURL,
-		    json: true
-		}, function (error, response, body) {
-
-		    if (!error && response.statusCode === 200) {
-		        bookData = JSON.stringify(body);
-		        	Med.create({
-						image: body.image,
-						author: body.author,
-						publishdate: body.publishdate,
-						title: req.body.title,
-						description: body.description,
-						textSnippet: body.textSnippet,
-						accessInfo: body.accessInfo
-					}, function(err, medias) {
-							if (err) {
-								console.log(err);
-								sendJsonResponse(res, 400, err);
-							} else {
-								console.log(medias);
-								sendJsonResponse(res, 201, medias);
-							}
-						});
-						    }
-						}); 
-
-
+	Med.create({
+		image: req.body.img,
+		author: req.body.author,
+		description: req.body.desc,
+		publishdate: req.body.pubDate,
+		title: req.body.bookname
+	}, function(err, medias) {
+			if (err) {
+				console.log(err);
+				sendJsonResponse(res, 400, err);
+			} else {
+				console.log(medias);
+				sendJsonResponse(res, 201, medias);
+			}
+		});
 };
+	
+	
+
+// ignore below this line for now
 
 module.exports.mediaSearch = function (req, res) {
 	if(req.params && req.params.mediaid) {
 		Med
-		 .findById(req.params.mediaid)
+		 .findById(req.params.ISBN)
 		 .exec(function(err, medias){
 			if (!medias){
 				sendJsonResponse(res, 404, {

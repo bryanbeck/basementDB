@@ -44,14 +44,14 @@ $(document).ready(function () {
             // Add some HTML with CSS
             htmlString += '<div class="col-xs-3">';
             // Build up the HTML using the data from the API
-            htmlString += '<img src="' + item.volumeInfo.imageLinks.thumbnail + '" alt="' + item.id + '" title="' + item.id + '", class ="img-thumbnail img-responsive"/><br/>';
-            htmlString += '<strong class="small">Pub: ' + item.volumeInfo.publishedDate + '</strong></div>';
-            htmlString += '<div class="col-xs-9"><h1>' + item.volumeInfo.title + '</h1>';
+            htmlString += '<img id = img src="' + item.volumeInfo.imageLinks.thumbnail + '" alt="' + item.id + '" title="' + item.id + '", class ="img-thumbnail img-responsive"/><br/>';
+            htmlString += '<strong class="small" id = pubDate>Pub: ' + item.volumeInfo.publishedDate + '</strong></div>';
+            htmlString += '<div class="col-xs-9"><h1 id=bookname>' + item.volumeInfo.title + '</h1>';
             $.each(item.volumeInfo.authors, function (i, author) {
-                htmlString += '<p class="bg-info"><i>' + author + '</i></p>';
+                htmlString += '<p  class="bg-info"><i id=author>' + author + '</i></p>';
             });
-            htmlString += '<p class="small">' + item.volumeInfo.description + '</p>';
-            htmlString += '<p class="well small">Extract: "' + item.searchInfo.textSnippet + '"<a href="' + item.accessInfo.webReaderLink + '" target="_blank"> Read more</a></p>';
+            htmlString += '<p id=desc class="small">' + item.volumeInfo.description + '</p>';
+            htmlString += '<p id=p3 class="well small">Extract: "' + item.searchInfo.textSnippet + '"<a href="' + item.accessInfo.webReaderLink + '" target="_blank"> Read more</a></p>';
             htmlString += '</div>';
             
         });
