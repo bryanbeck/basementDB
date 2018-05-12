@@ -11,10 +11,12 @@ block content
           p= textadd
           .panel.panel-primary
             .panel-heading
+              form.form-horizontal(action="", method="delete", role="form")
                h2.panel-title= collections.type
             .panel-body
                 each mediaType in collections.mediaTypes
                  p= mediaType
+            button.btn.btn-default.pull-right Delete
             
     .col-xs-12.col-md-3
       p.lead #{collections.title} #{sidebar.context}

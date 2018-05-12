@@ -32,8 +32,16 @@ block content
           .col-sm-10
             input#notes.form-control(name="notes")
         .form-group
-          label.col-xs-10.col-sm-2.control-label(for="name") Date added
+          label.col-xs-10.col-sm-2.control-label(for="isbn") ISBN
           .col-xs-12.col-sm-10
-            input#date.form-control(date="date")
+            input#isbn.form-control(name="isbn")
+        .form-group
+          label.col-xs-10.col-sm-2.control-label(for="thumbnail") thumbnail
+          .col-xs-12.col-sm-10
+            input#thumbnail.form-control(name="thumbnail")
+        .form-group
+          label.col-xs-10.col-sm-2.control-label(for="date") Date added
+          .col-xs-12.col-sm-10
+            input#date.form-control(name="date")
         button.btn.btn-default.pull-right Add to database
     .col-xs-12.col-md-4

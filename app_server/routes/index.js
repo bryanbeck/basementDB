@@ -9,7 +9,7 @@ var ctrlOthers = require('../controllers/others');
 
 /* media pages */
 router.get('/', ctrlMedia.home);
-router.get('/media/one/:mediaid',ctrlMedia.collections); // shows detials of media 
+router.get('/media/one/:mediaid',ctrlMedia.collections); // shows detials of media
 router.get('/media/add', ctrlMedia.addMedia); //add media to collections
 router.post('/media/add/', ctrlMedia.doAddMedia);
 router.get('/media/show',ctrlMedia.showMedia); // shows specific media

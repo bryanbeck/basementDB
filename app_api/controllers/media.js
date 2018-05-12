@@ -43,13 +43,15 @@ module.exports.mediaAdd = function(req, res) {
 	console.log(req.body);
 	Med.create({
 		mediaType: req.body.mediaType,
-		artist: req.body.artist,
 		title: req.body.title,
+		artist: req.body.artist,
 		publisher: req.body.publisher,
 		dateAdded: req.body.dateAdded,
 		genre: req.body.genre,
 		year: req.body.year,
-		notes: req.body.notes
+		notes: req.body.notes,
+        isbn: req.body.isbn,
+		thumbnail: req.body.thumbnail
 	}, function(err, medias) {
 			if (err) {
 				console.log(err);
@@ -62,9 +64,9 @@ module.exports.mediaAdd = function(req, res) {
 };
 
 module.exports.mediaSearch = function (req, res) {
-	if(req.params && req.params.mediaid) {
+	if(req.params && req.params.title) {
 		Med
-		 .findById(req.params.mediaid)
+		 .findById(req.query.title)
 		 .exec(function(err, medias){
 			if (!medias){
 				sendJsonResponse(res, 404, {

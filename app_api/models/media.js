@@ -1,4 +1,4 @@
-var mongoose = require( 'mongoose' );
+const mongoose = require('mongoose');
 
 var mediaSchema = new mongoose.Schema({
 	mediaType: String,
@@ -7,8 +7,10 @@ var mediaSchema = new mongoose.Schema({
 	publisher: String,
 	dateAdded: String,
 	genre: String,
-	year: Number,
-	notes: String
+	year: String,
+	notes: String,
+    isbn: String,
+    thumbnail: String
 });
 
 mongoose.model('Media', mediaSchema, 'medias');

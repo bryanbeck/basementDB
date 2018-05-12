@@ -40,6 +40,13 @@ module.exports.home = function(req,res){
 };
 
 /*GET 'Collections' page*/
+var renderDelete = function(req, res){
+	res.render('media-erase',{
+		title: "item has been removed from db"
+		});
+	console.log("item deleted");
+}
+
 var renderMediaCollection = function (req, res, mediaD) {
 	res.render('media-collection', {
 		title: 'view item',
@@ -70,14 +77,14 @@ module.exports.collections = function(req,res){
 	path = "/api/media/one/" + req.params.mediaid;
 	requestOptions = {
 		url : apiOptions.server + path,
-		method : "GET",
+		method : "delete",
 		json : {},
 		qs : {}
 	};
 	request(
 		requestOptions,
 		function(err, response, body) {
-			renderMediaCollection(req, res, body);
+			renderDelete(req, res);
 			}
 		);
 	
@@ -107,7 +114,9 @@ module.exports.doAddMedia = function(req, res){
 		    genre: req.body.genre,
 		    notes: req.body.notes,
 		    year: req.body.year,
-		    dateAdded: req.body.dateAdded
+		    dateAdded: req.body.dateAdded,
+			isbn: req.body.isbn,
+			thumbnail: req.body.thumbnail
 		  };
   requestOptions = {
     url : apiOptions.server + path,
