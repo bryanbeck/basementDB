@@ -10,10 +10,11 @@
     "npm": "~5.5.1"
   },
   "dependencies": {
+    "body": "^5.1.0",
     "body-parser": "~1.18.2",
     "cookie-parser": "~1.4.3",
     "debug": "~2.6.9",
-    "express": "~4.15.5",
+    "express": "^4.16.3",
     "jade": "~1.11.0",
     "jquery": "^3.3.1",
     "mongoose": "^4.13.12",

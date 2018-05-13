@@ -20,23 +20,56 @@ module.exports.mediaShowAll = function (req, res) {
 module.exports.mediaAdd = function(req, res) {
 	console.log(req.body);
 	Med.create({
-		image: req.body.img,
-		author: req.body.author,
-		description: req.body.desc,
-		publishdate: req.body.pubDate,
-		title: req.body.bookname
-	}, function(err, medias) {
-			if (err) {
-				console.log(err);
-				sendJsonResponse(res, 400, err);
-			} else {
-				console.log(medias);
-				sendJsonResponse(res, 201, medias);
-			}
-		});
+		isbn: req.body.ISBN
+    }, function(err, medias) {
+        if (err) {
+            console.log(err);
+            sendJsonResponse(res, 400, err);
+        } else {
+            console.log(medias);
+            sendJsonResponse(res, 201, medias);
+        }
+    });
+};
+
+module.exports.mediaBulkAdd = function(req, res) {
+    console.log(req.body);
+    Med.insertOne({
+        jsonObject: req.body.jsonOBJ
+    }, function(err, medias) {
+        if (err) {
+            console.log(err);
+            sendJsonResponse(res, 400, err);
+        } else {
+            console.log(medias);
+            sendJsonResponse(res, 201, medias);
+        }
+    });
 };
 	
-	
+module.exports.googleAPI = function (req, res) {
+	var myjson;
+	console.log(req.body);
+
+	var ISBN = req.query.ISBN;
+	var URL = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + ISBN;  //9781451648546";
+
+		requestOptions = {
+		url : URL,
+		method : "GET",
+		json : true
+	};
+	request(
+		requestOptions,
+		function(err, response, body) {
+			if (response.statusCode === 200){
+				myjson = JSON.stringify(body);
+				res.send(myjson);
+				//cb.json(body)
+			}
+
+		});
+};
 
 // ignore below this line for now
 

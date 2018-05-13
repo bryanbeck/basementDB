@@ -3,6 +3,7 @@ var apiOptions = {
 	server : "http://localhost:3000",
 	google : "https://www.googleapis.com/books/v1/volumes?q=isbn:"
 };
+
 	if (process.env.NODE_ENV === 'production'){
 		apiOptions.server = "https://murmuring-sands-70518.herokuapp.com/"
 	}
@@ -79,26 +80,47 @@ var renderAddMedia = function(req, res) {
 
 
 
-module.exports.addMedia = function(req,res){
+module.exports.addMedia = function(req,res, body){
 
-	renderAddMedia(req, res);
+	renderAddMedia(req, res, body);
 }
 
-
+module.exports.doAddBulk = function(req, res){
+    let requestOptions, path, entry, postdata;
+    path = "/api/media/search/";
+    postdata = {
+        isbn: req.body.text
+    };
+    requestOptions = {
+        url : apiOptions.server + path,
+        method : "POST",
+        json : postdata
+    };
+    if (!postdata) {
+        res.redirect('/media/add');
+    } else {
+        request(
+            requestOptions,
+            function(err, response, body) {
+                if (response.statusCode === 201) {
+                    res.redirect('/media/show');
+                } else {
+                    console.log(body);
+                    //_showError(req, res, response.statusCode);
+                }
+            }
+        );
+    }
+};
 	
 
 //POST book to database
 module.exports.doAddMedia = function(req, res){
-	var requestOptions, path, entry, postdata;
+	let requestOptions, path, entry, postdata;
+	ISBN = req.params.ISBN;
 	path = "/api/media/add/";
-	entry = req.body.ISBN+'/populate';
 		postdata = {
 			isbn: req.body.ISBN,
-			image: req.body.img,
-			author: req.body.author,
-			description: req.body.desc,
-			publishdate: req.body.pubDate,
-			title: req.body.bookname
 		 };
   requestOptions = {
     url : apiOptions.server + path,
@@ -138,6 +160,7 @@ var renderShowMedia = function (req, res, responseBody) {
 };
 
 
+
 module.exports.showMedia = function(req,res){
 	var requestOptions, path;
 	path ='/api/media/show';
@@ -156,44 +179,67 @@ module.exports.showMedia = function(req,res){
 };
 
 /*GET 'searchMedia' page*/
-var renderMediaSearch = function (req, res, mediaD) {
+var renderMediaSearch = function (req, res, body) {
 	// res.redirect('https://www.googleapis.com/books/v1/volumes?q=isbn:'+ req.params.ISBN);
 
 	res.render('media-search',{
 		title: 'Search Books by ISBN',
-		pageHeader: {title: 'Show description by ISBN'},
-		collections: {
-			type: mediaD,
-			mediaTypes: {
-			}
-		},
-		medias: mediaD
+		pageHeader: {title: 'Show description by this is'},
+		author: body
 	});
 };
 
-
-module.exports.searchMedia = function(req,res){
-	var requestOptions, path, entry, url;
-
-	entry = req.body.title;
-	url = apiOptions.google + '9781617292033';
+module.exports.searchMedia = function(req, res){
+    renderMediaSearch(req, res, body);
+}
 
 
-	
-	path = "/api/media/search/" + req.params.ISBN;
-	requestOptions = {
-		url : url,
-		method : "GET",
-		json : true
-	};
-	request(
-		requestOptions,
-		function(err, response, body) {
-			if (response.statusCode === 200){
-				res.send(body)
-			}
-			renderMediaSearch(req, res, body);
-			}
-		);
+module.exports.doSearchMedia = function(req,res) {
+    let requestOptions, path, ISBN;
+    ISBN = req.params.ISBN;
+    path = '/api/media/search/' + ISBN;
+
+
+    requestOptions = {
+        url: apiOptions.server + path,
+        method: "GET",
+        json: true,
+		qs: {ISBN: ISBN}
+    };
+    request(
+        requestOptions,
+        function (err, response, body) {
+            renderMediaSearch(req, res, body);
+        });
 };
+
+
+
+//     requestOptions = {
+//     	url : apiOptions.google+"9781451648546",
+//     	method : "GET",
+//     	json : true
+//     };
+//     request(
+//     	requestOptions,
+//     	function(err, response, body) {
+//     		if (response.statusCode === 200){
+//     			var myjson = JSON.stringify(body);
+//                    // myjson.author = body.items.volumeInfo;
+//     		}
+//     		// renderMediaSearch(req,res);
+// 			res.render('media-search', {
+// 				title: 'Find books by ISBN number',
+// 				pageHeader:{
+// 					title: 'Show description from google API'
+// 				},
+// 				textobj: myjson
+//
+// 			});
+// 		});
+// };
+
+
+
+
 

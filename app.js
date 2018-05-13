@@ -5,6 +5,12 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 var jquery = require('jquery');
+var textBody = require("body")
+var jsonBody = require("body/json")
+var formBody = require("body/form")
+var anyBody = require("body/any")
+var http = require("http")
+
 require('./app_api/models/db');
 
 var routes = require('./app_server/routes/index');

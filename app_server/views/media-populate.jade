@@ -5,10 +5,11 @@ block content
     .col-lg-12
       h1= pageHeader.title
   .row
+      h2= bodyResponse
     .col-xs-12.col-md-6
-      form.form-horizontal(action="", method="get", role="form")
+      form.form-horizontal(action="", method="post", role="form")
         .form-group
           label.col-xs-10.col-sm-2.control-label(for="title") Title
           .col-xs-12.col-sm-10
             input#title.form-control(name="title")
-        button.btn.btn-default.pull-right Search database for media
+        button.btn.btn-default.pull-right Add to the database
