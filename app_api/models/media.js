@@ -10,7 +10,6 @@ var mediaSchema = new mongoose.Schema({
 	year: String,
 	notes: String,
     isbn: String,
-    thumbnail: String
 });
 
 mongoose.model('Media', mediaSchema, 'medias');

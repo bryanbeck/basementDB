@@ -15,6 +15,10 @@ block content
          h4
            a(href="/media/one/#{media._id}")= media.title
             span.badge.pull-right.badge-default= media.mediaType
+           a(href="/media/search/#{media._id}/update")
+            button.btn.btn-default.pull-right update media
+           a(href="/api/media/one/#{media._id}/")
+            button.btn.btn-default.pull-right delete media
           p.artist= media.artist
           p
           p.publisher= media.publisher
@@ -25,9 +29,10 @@ block content
           p
           p.notes= media.notes
           p
-          p.b
+          p.type= media.mediaType
           p
-
+          p.title= media.title
+          p
             img.className#thumb(src=media.thumbnail alt="Image Title")
             span.label.label-warning= media.genre
             &nbsp;

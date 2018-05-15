@@ -8,6 +8,7 @@ router.get('/media/show', ctrlMedia.mediaShowAll);
 router.post('/media/add', ctrlMedia.mediaAdd)
 router.get('/media/search/:mediaid', ctrlMedia.mediaSearch);
 router.delete('/media/one/:mediaid',ctrlMedia.mediaDelete);
+router.get('/media/one/:mediaid',ctrlMedia.mediaDelete);
 router.put('/media/add/:mediaid',ctrlMedia.mediaUpdate);
 
 

@@ -131,14 +131,14 @@ module.exports.mediaUpdate = function (req, res) {
           sendJsonResponse(res, 400, err);
           return;
         }
-        // medias.mediaType = req.body.mediaType;
-        // medias.name = req.body.name;
-        // medias.artist = req.body.artist;
-        // medias.title = req.body.title;
-        // medias.publisher = req.body.publisher;
-        // medias.genre = req.body.genre;
-        // medias.year = req.body.year;
-        // medias.notes = req.body.notes;
+        medias.mediaType = req.body.mediaType;
+        medias.name = req.body.name;
+        medias.artist = req.body.artist;
+        medias.title = req.body.title;
+        medias.publisher = req.body.publisher;
+        medias.genre = req.body.genre;
+        medias.year = req.body.year;
+        medias.notes = req.body.notes;
         medias.save(function(err, medias) {
           if (err) {
             sendJsonResponse(res, 404, err);

@@ -9,12 +9,12 @@ var apiOptions = {
 /*GET 'Home' page*/
 module.exports.home = function(req,res){
 	res.render('media-home', {
-		title: 'BasementDB - Store & Catalog your collection',
+		title: 'NOSQLDB - Store & Catalog your Books',
 		pageHeader: {
-			title: 'BasementDB',
-			strapline: 'Store & catalog your collection. View it easily with online access!'
+			title: 'NOSQLDB',
+			strapline: 'An exercise in NOSQL '
 		},
-		sidebar:"Are you tired of forgetting what you have in your collection?  Would you like a reliable & easy to use web-app to keep track of all the items in your collection?  Look no further, basementDB is the solution to your needs.  Track your whole collection & easily view it here!",
+		sidebar:"Track your whole collection of books & easily view it here! More media types to come soon",
 		navigations: [{
 			hyperlink: '/media/show',
 			title: 'Click to display all items in collection',
@@ -72,7 +72,7 @@ var renderMediaCollection = function (req, res, mediaD) {
 		});
 };
 
-module.exports.collections = function(req,res){
+module.exports.delete = function(req,res){
 	var requestOptions, path;
 	path = "/api/media/one/" + req.params.mediaid;
 	requestOptions = {
@@ -88,6 +88,24 @@ module.exports.collections = function(req,res){
 			}
 		);
 	
+};
+
+module.exports.collections = function(req,res){
+    var requestOptions, path;
+    path = "/api/media/one/" + req.params.mediaid;
+    requestOptions = {
+        url : apiOptions.server + path,
+        method : "get",
+        json : {},
+        qs : {}
+    };
+    request(
+        requestOptions,
+        function(err, response, body) {
+            renderMediaCollection(req, res, body);
+        }
+    );
+
 };
 
 /*GET 'addMedia' page*/
@@ -133,12 +151,62 @@ module.exports.doAddMedia = function(req, res){
          res.redirect('/media/show');
         } else {
           console.log(body);
-          _showError(req, res, response.statusCode);
+         // _showError(req, res, response.statusCode);
         }
       }
     );
 }
 };
+
+var renderUpdateMedia = function(req, res){
+    res.render('update',{
+        title: 'update Media by _id',
+        pageHeader: {title: 'Add new Media'}
+    });
+};
+
+module.exports.updateMedia = function(req, res){
+	renderUpdateMedia(req, res);
+};
+
+module.exports.doUpdateMedia = function(req, res){
+	let requestOptions, path,mediaid, postdata;
+    mediaid = req.body.title;
+    path = "/api/media/search/"+mediaid/update;
+    postdata = {
+        mediaType: req.body.mediaType,
+        artist: req.body.artist,
+        title: req.body.title,
+        publisher: req.body.publisher,
+        genre: req.body.genre,
+        notes: req.body.notes,
+        year: req.body.year,
+        dateAdded: req.body.dateAdded,
+        isbn: req.body.isbn,
+        thumbnail: req.body.thumbnail
+    };
+    requestOptions = {
+        url : apiOptions.server + path,
+        method : "PUT",
+        json : postdata
+    };
+    if (!postdata.artist || !postdata.title || !postdata.mediaType) {
+        res.redirect('/media/add');
+    } else {
+        request(
+            requestOptions,
+            function(err, response, body) {
+                if (response.statusCode === 201) {
+                    res.redirect('/media/show');
+                } else {
+                    console.log(body);
+                    //_showError(req, res, response.statusCode);
+                }
+            }
+        );
+    }
+};
+
 
 /*GET 'showMedia' page*/
 var renderShowMedia = function (req, res, responseBody) {
@@ -196,7 +264,7 @@ var renderMediaSearch = function (req, res, mediaD) {
 module.exports.searchMedia = function(req,res){
 	var requestOptions, path, entry;
 	entry = req.body.title;
-	path = "/api/media/search/" + req.params.mediaid;
+	path = "/api/media/search/" + entry;
 	requestOptions = {
 		url : apiOptions.server + path,
 		method : "GET",
