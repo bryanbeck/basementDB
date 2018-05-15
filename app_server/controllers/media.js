@@ -66,15 +66,16 @@ module.exports.loadPopulate = function(req, res){
 };
 
 module.exports.populateMedia = function(req, res){
-	res.redirect('https://www.googleapis.com/books/v1/volumes?q=isbn:'+ req.params.ISBN);
+	renderPopulateMedia;
 
 }
 
 /*GET 'addMedia' page*/
-var renderAddMedia = function(req, res) {
+var renderAddMedia = function(req, res, body) {
 		res.render('media-add',{
 			title: 'Add Media',
-			pageHeader: {title: 'Add new books via ISBN'}
+			pageHeader: {title: 'Add new books via ISBN'},
+			author: body
 	});
 }
 
@@ -116,8 +117,8 @@ module.exports.doAddBulk = function(req, res){
 
 //POST book to database
 module.exports.doAddMedia = function(req, res){
-	let requestOptions, path, entry, postdata;
-	ISBN = req.params.ISBN;
+	let requestOptions, path, postdata;
+	ISBN = req.query.ISBN;
 	path = "/api/media/add/";
 		postdata = {
 			isbn: req.body.ISBN,
@@ -179,25 +180,25 @@ module.exports.showMedia = function(req,res){
 };
 
 /*GET 'searchMedia' page*/
-var renderMediaSearch = function (req, res, body) {
+var renderMediaSearch = function (req, res, bodyContent) {
 	// res.redirect('https://www.googleapis.com/books/v1/volumes?q=isbn:'+ req.params.ISBN);
 
 	res.render('media-search',{
 		title: 'Search Books by ISBN',
-		pageHeader: {title: 'Show description by this is'},
-		author: body
+		pageHeader: {title: 'Show description by isbn'},
+		author: bodyContent
 	});
 };
 
 module.exports.searchMedia = function(req, res){
-    renderMediaSearch(req, res, body);
+    renderMediaSearch(req, res);
 }
 
 
 module.exports.doSearchMedia = function(req,res) {
-    let requestOptions, path, ISBN;
-    ISBN = req.params.ISBN;
-    path = '/api/media/search/' + ISBN;
+    var requestOptions, path, ISBN;
+    ISBN = req.body.ISBN;
+    path = '/api/media/add?ISBN='+ISBN;
 
 
     requestOptions = {
@@ -209,7 +210,7 @@ module.exports.doSearchMedia = function(req,res) {
     request(
         requestOptions,
         function (err, response, body) {
-            renderMediaSearch(req, res, body);
+            renderAddMedia(req, res, body);
         });
 };
 
@@ -238,8 +239,3 @@ module.exports.doSearchMedia = function(req,res) {
 // 			});
 // 		});
 // };
-
-
-
-
-

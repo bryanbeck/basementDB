@@ -51,8 +51,8 @@ module.exports.googleAPI = function (req, res) {
 	var myjson;
 	console.log(req.body);
 
-	var ISBN = req.query.ISBN;
-	var URL = "https://www.googleapis.com/books/v1/volumes?q=isbn:" + ISBN;  //9781451648546";
+	var ISBN = req.params.ISBN;
+	var URL = "https://www.googleapis.com/books/v1/volumes?q=isbn:9781451648546";
 
 		requestOptions = {
 		url : URL,

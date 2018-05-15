@@ -7,8 +7,10 @@ var ctrlMedia = require('../controllers/media');
 router.get('/media/show', ctrlMedia.mediaShowAll);
 router.post('/media/add/', ctrlMedia.mediaAdd);
 
-router.get('/media/search/:ISBN', ctrlMedia.googleAPI);
-router.get ('/media/search/', ctrlMedia.googleAPI);
+router.get('/media/add?:ISBN', ctrlMedia.googleAPI);
+
+router.get ('/media/search', ctrlMedia.googleAPI);
+
 router.post('/media/search/', ctrlMedia.mediaBulkAdd);
 
 router.delete('/media/show/:ISBN',ctrlMedia.mediaDelete);

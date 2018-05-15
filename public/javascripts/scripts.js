@@ -30,6 +30,8 @@ function storeJSON(isbn) {
         })
 }
 
+function getInput
+
 function getBookDetails(isbn) {
 $(document).ready(function () {
   var isbn = document.getElementById('ISBN').value; // "9781451648546", 9781617292033; // Steve Jobs book 
